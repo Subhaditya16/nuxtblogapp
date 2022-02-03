@@ -5,7 +5,7 @@
         </section>
         <section class="existing-posts">
             <h1>Existing Posts</h1>
-            <PostList />
+            <PostList :posts="loadedPosts" />
         </section>
     </div>
 </template>
@@ -19,7 +19,37 @@ export default {
     components: {
         PostList,
         AppButton
-    }
+    },
+asyncData(context) {
+      return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve({
+                loadedPosts: [
+                    {
+                        id:'1',
+                        title: "First Post",
+                        previewText: "Welcome to first Post",
+                        thumbnail:
+                        "https://image.freepik.com/free-vector/abstract-digital-technology-background-with-network-connection-lines_1017-25552.jpg?w=1380"
+                    },
+                    {
+                        id:'2',
+                        title: "Second Post",
+                        previewText: "Welcome to Second Post",
+                        thumbnail:
+                        "https://image.freepik.com/free-vector/abstract-digital-technology-background-with-network-connection-lines_1017-25552.jpg?w=1380"
+                    }
+                ]
+            });
+        }, 1000);
+        //reject(new Error())
+      }).then(data => {
+          return data
+      })
+      .catch(e => {
+          context.error(new Error())
+      })
+  }
 }
 </script>
 
